@@ -3,85 +3,84 @@ package tests;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import factories.DriverFactory;
+import library.dto.entites.company.Company;
+import library.dto.entites.user.User;
+import library.helpers.login.UserLoginPage;
+import library.object_models.modules.payroll.PayrollModuleElements;
+import library.object_models.modules.payroll.left_menu.employees.SalaryDetails;
+import library.pages.homepage.HomePage;
 import root.finders.ClassFinder;
+import root.finders.ClassInstantiator;
+import root.finders.PomClassFinder;
+import root.finders.PomInstantiator;
 import site_mapper.jaxb.menu_items.MenuItem;
 
+/**
+ * @author SteveBrown
+ * @version 1.0
+ * 	Initial 
+ * @since 1.0
+ * 
+ * 
+ */
 class ClassFinderTest {
-
-	@Test
-	void create_classFinder() {
-		ClassFinder finder = 
-			new ClassFinder(
-					"/DakarHR-Library/src/main/java/library/object_models");
-		
-		assertTrue(finder != null);
-	}
+	private static final String FROM_LIBRARY = 
+			"C:/Users/SteveBrown/eclipse-workspace/2021/DakarHR-Library";
 	
-//	@Test
-//	void getClazz_fromDTestCommon() {		
-//		ClassFinder finder = new ClassFinder("root");
-//		
-//		Class<?> clazz = 
-//				finder.getClazz(
-//						"C:/Users/SteveBrown/eclipse-workspace/2021/DTestCommon", 
-//						"core_data", 
-//						"CoreData");
-//		
-//		assertEquals("CoreData", clazz.getSimpleName());
-//	}
-
-	@Test
-	void getClazz_fromDakarHR_Library() {		
-		ClassFinder finder = new ClassFinder("root");
-		/*
-		 * have to give library (project) path & name, i.e. "C:/Users/SteveBrown/eclipse-workspace/2021/DakarHR-Library"
-		 * package com = library.object_models.modules
-		 */
-		MenuItem item = new MenuItem();
+	private static MenuItem item;
+	private static HomePage hpPayroll;
+	
+	@BeforeAll	
+	public static void setup() {
+		item = new MenuItem();
 		item.setTestClassName("SalaryDetails");
 		item.setTestModuleName("payroll");
 		item.setTestMenuName("left_menu");
 		item.setTestPackage("employees");
 		
-		Class<?> clazz = finder.getClazz(item);
+		Company co = new Company("A Comp");
+		UserLoginPage userLoginPayroll = 
+			new UserLoginPage(
+					DriverFactory.getDriver(""), "http://deploy.dakarhr.com/DakarHR.php", new PayrollModuleElements(co));
+		hpPayroll = userLoginPayroll.loginValidUser(new User("portal2", "123"));
+	}
+	
+	@AfterAll
+	static void tearDownAfterClass() throws Exception {
+		hpPayroll.close();
+	}
+		
+	@Test
+	void create_classFinder() {
+		ClassFinder finder = new PomClassFinder("", null);		
+		assertTrue(finder != null);
+	}
+	
+	@Test
+	void getClazz_fromDakarHR_Library() {		
+		ClassFinder finder = new PomClassFinder("root", item);		
+		Class<?> clazz = finder.getClazz();
 				
 		assertEquals("SalaryDetails", clazz.getSimpleName());
 	}
 	
-//	@Test
-//	void getClazz() {
-//		// C:\Users\SteveBrown\eclipse-workspace\2021\DakarHR-Library\src\main\java\library\object_models\modules\payroll\left_menu\employees
-////		ClassFinder finder = 
-////			new ClassFinder(
-////					"C:/Users/SteveBrown/eclipse-workspace/2021/DakarHR-Library/src/main/java/library/object_models/modules/payroll/left_menu/employees");
-//		
-//		ClassFinder finder = 
-//				new ClassFinder(
-//						"root");
-//		
-////		MenuItem item = new MenuItem();
-////		item.setTestClassName("FunctionTest");
-////		item.setTestModuleName("mappers");
-////		item.setTestMenuName("functions");
-//		
-////		Class<?> clazz = finder.getClazz("C:/Users/SteveBrown/eclipse-workspace/2021/DynamicTest", "root.mappers.functions", "FunctionTest");
-//		
-////		Class<?> clazz = 
-////				finder.getClazz(
-////						"C:/Users/SteveBrown/eclipse-workspace/2021/DakarHR-Library", 
-////						"library.object_models.modules.payroll.left_menu.employees", 
-//	library.object_models.modules.payroll.left_menu.employees
-////						"SalaryDetails");
-//		
-//		Class<?> clazz = 
-//				finder.getClazz(
-//						"C:/Users/SteveBrown/eclipse-workspace/2021/DTestCommon", 
-//						"core_data", 
-//						"CoreData");
-//		
-//		assertEquals("CoreData", clazz.getSimpleName());
-//	}
-
+	@Test
+	void getObj_fromDakarHR_Library() {
+		ClassInstantiator instantiator = 
+			new PomInstantiator(
+				FROM_LIBRARY, 
+				item, 
+				hpPayroll);
+				
+		Object obj = instantiator.getInstantiatedClass();
+		SalaryDetails salaryDetails = (SalaryDetails) obj;
+		
+		assertEquals("SalaryDetails", salaryDetails.getClass().getSimpleName());
+	}
+	
 }

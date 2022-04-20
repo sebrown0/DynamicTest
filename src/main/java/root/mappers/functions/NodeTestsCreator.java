@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.junit.jupiter.api.DynamicContainer;
 
-import core_data.CoreData;
 //import dynamic_tests.elements.IncludedElements;
 //import dynamic_tests.finders.ClassFinder;
 //import dynamic_tests.mappers.TestNode;
@@ -17,7 +16,8 @@ import core_data.CoreData;
 //import dynamic_tests.test_elements.TestElementDetails;
 import library.pages.homepage.HomePage;
 import root.elements.IncludedElements;
-import root.finders.ClassFinder;
+import root.finders.ClassInstantiator;
+import root.finders.PomInstantiator;
 import root.mappers.TestNode;
 import root.test_elements.DynamicTestFactory;
 import root.test_elements.ElementTest;
@@ -58,9 +58,18 @@ public class NodeTestsCreator {
 	}
 
 	public NodeTestsCreator addTestsForEachTestNode(ElementTestFactory tf) {
-//		obj = ClassFinder.getInstantiatedObject(item);
-//		obj = ClassFinder.getInstantiatedObject(item, (CoreData)hp);
-		obj = new ClassFinder("/DakarHR-Library/src/main/java/library/object_models").getInstantiatedObject(item, (CoreData)hp);
+		/*
+		 * We are only using DakarHR at the moment
+		 * but this will have to be a factory when
+		 * using other libraries/apps.
+		 */
+		ClassInstantiator instantiator = 
+				new PomInstantiator(
+					item.getSiteMapInfo().getElementLibrary(), 
+					item, 
+					hp);
+					
+		obj = instantiator.getInstantiatedClass();
 		
 		addElementFunctionTests();
 		

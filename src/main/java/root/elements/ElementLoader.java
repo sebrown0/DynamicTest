@@ -9,6 +9,7 @@ import java.util.Optional;
 import library.common.controls.interfaces.ControlTest;
 import library.pages.homepage.HomePage;
 import root.finders.ClassFinder;
+import root.finders.PomClassFinder;
 import site_mapper.elements.ElementClass;
 
 /**
@@ -46,8 +47,19 @@ public class ElementLoader {
 				SiteMapElementLoader.getAndLoadSiteMapElement(nodeClass, homePage, clazz));		
 	}
 	private static Class<?> getClazz(){		
-//		return ClassFinder.getClazz(nodeClass);
-		return new ClassFinder("").getClazz(nodeClass);
+		/*
+		 * We are only using DakarHR at the moment
+		 * but this will have to be a factory when
+		 * using other libraries/apps.
+		 * 
+		 * i.e. this is setup to get POMs from,
+		 * "library.object_models.modules".
+		 */
+		ClassFinder finder = 
+			new PomClassFinder(
+				nodeClass.getSiteMapInfo().getElementLibrary(), nodeClass); 
+				
+		return finder.getClazz();
 	}
 	private static ControlTest getContainerAsControlTest() {
 		ControlTest ct = null;
