@@ -9,6 +9,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.junit.jupiter.api.DynamicContainer;
 
+import app.xml_content.XmlTestContent;
 import library.pages.homepage.HomePage;
 import root.common.XmlInfo;
 import root.elements.IncludedElements;
@@ -38,11 +39,13 @@ public class DynamicTestMenu {
 		this.moduleName = moduleName;
 	}
   
-	public DynamicContainer getMenuContainers() {  	
+	public DynamicContainer getMenuContainers(XmlTestContent content) {  	
 		if(menu.getMenuItems() != null && includedElements != null) {  	
   		menuName = menu.getPackageName();
 			menu.getMenuItems().forEach(item -> {
-				addMenuItemTestsToMenuContainer(item, getTestsForMenuItem(item));
+				
+				addMenuItemTestsToMenuContainer(item, getTestsForMenuItem(item, content));
+				
 			});	
 		}else {
 			LogManager
@@ -60,9 +63,9 @@ public class DynamicTestMenu {
 		menuTestItems.add(DynamicContainer.dynamicContainer(item.getName(), menuItemTestContainers));
 	}
 	
-  private List<DynamicContainer> getTestsForMenuItem(MenuItem item) {
+  private List<DynamicContainer> getTestsForMenuItem(MenuItem item, XmlTestContent content) {
   	List<DynamicContainer> menuItemTestContainers = new ArrayList<>();		
-  	item.setTestModuleName(moduleName).setTestMenuName(menuName);  	
+  	setItem(item, content);
  
  		new 
  			DynamicTestItem(testInfo, item, menuItemTestContainers, hp)
@@ -71,5 +74,11 @@ public class DynamicTestMenu {
  		return menuItemTestContainers;
   }
 
+  private void setItem(MenuItem item, XmlTestContent content) {
+  	item
+			.setTestModuleName(moduleName)
+			.setTestMenuName(menuName)
+			.setSiteMapInfo(content.getSiteMapInfo());  
+  }
 	
 }

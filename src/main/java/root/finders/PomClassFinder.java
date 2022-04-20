@@ -8,6 +8,7 @@ import java.net.URLClassLoader;
 import org.apache.logging.log4j.LogManager;
 
 import site_mapper.elements.ElementClass;
+import utils.text_utils.StringUtil;
 
 /**
  * @author SteveBrown
@@ -57,9 +58,9 @@ public class PomClassFinder implements ClassFinder {
 		private String getPackage(){
 			String pack = 
 					"library.object_models.modules" + 
-					"." + nodeClass.getModuleName() +
-					"." + nodeClass.getParentPackage() +
-					"." + nodeClass.getPackage();
+					"." + StringUtil.firstCharToLower(nodeClass.getModuleName()) +
+					"." + StringUtil.firstCharToLower(nodeClass.getParentPackage()) +
+					"." + StringUtil.firstCharToLower(nodeClass.getPackage());
 			return pack;
 		}
 		

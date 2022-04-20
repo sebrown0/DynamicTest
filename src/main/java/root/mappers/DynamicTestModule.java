@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.DynamicContainer;
 
+import app.xml_content.XmlTestContent;
 import library.pages.homepage.HomePage;
 import root.common.XmlInfo;
 import site_mapper.jaxb.pom.Module;
@@ -25,7 +26,7 @@ import site_mapper.jaxb.pom.menu.MenuType;
 public class DynamicTestModule {
   private List<DynamicContainer> moduleMenus;
 
-	public DynamicContainer getModuleContainers(Module module, XmlInfo info, HomePage hp) {
+	public DynamicContainer getModuleContainers(Module module, XmlInfo info, HomePage hp, XmlTestContent content) {
 		moduleMenus = new ArrayList<>();
 		List<MenuType> menus = module.getMenus();
 		if(menus != null) {
@@ -34,7 +35,7 @@ public class DynamicTestModule {
 				.filter(m-> m != null)
 				.forEach(m -> {
 					moduleMenus.add(
-							new DynamicTestMenu(m, info, hp, moduleName).getMenuContainers()
+							new DynamicTestMenu(m, info, hp, moduleName).getMenuContainers(content)
 					);
 				});
 			

@@ -8,6 +8,7 @@ root\test_strategy\DynamicTestReportStrategyConsole.class
 root\common\XmlInfo.class
 root\mappers\DynamicTestModule.class
 root\mappers\functions\ContainerFunctionTest.class
+root\finders\PomInstantiator.class
 root\test_adders\TestAdderComboSelectOnly.class
 root\common\DynamicTestInfoFromXml.class
 root\test_elements\CreateTextCheckString.class
@@ -16,6 +17,7 @@ root\mappers\functions\ElementFunctionTest.class
 root\test_adders\TestAdderLabel.class
 root\test_strategy\DynamicTestReportStrategyJunit.class
 root\test_results\DynamicTestResultType.class
+root\finders\PomClassFinder.class
 root\elements\ElementLoader.class
 root\common\package-info.class
 root\test_adders\TestAdderButton.class
@@ -30,6 +32,7 @@ root\elements\SiteMapElement.class
 root\test_elements\DataInserter.class
 root\mappers\DynamicTestApp.class
 root\test_elements\CreateFaFaCheck.class
+root\finders\ClassInstantiator.class
 root\elements\SiteMapElementLoader.class
 root\finders\MethodFinder.class
 root\finders\MethodGetter.class

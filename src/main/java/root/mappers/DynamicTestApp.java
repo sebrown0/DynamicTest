@@ -39,7 +39,7 @@ public class DynamicTestApp {
 			getModules().ifPresent( mods ->{
 				mods.forEach(m -> {					
 					moduleMenus.add(
-							new DynamicTestModule().getModuleContainers(m, xmlInfo, hp)
+							new DynamicTestModule().getModuleContainers(m, xmlInfo, hp, content)
 					);
 		  	});
 			});

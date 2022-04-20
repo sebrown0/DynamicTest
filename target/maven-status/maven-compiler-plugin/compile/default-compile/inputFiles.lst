@@ -21,6 +21,7 @@ C:\Users\SteveBrown\eclipse-workspace\2021\DynamicTest\src\main\java\root\elemen
 C:\Users\SteveBrown\eclipse-workspace\2021\DynamicTest\src\main\java\root\test_results\DynamicTestResult.java
 C:\Users\SteveBrown\eclipse-workspace\2021\DynamicTest\src\main\java\root\factories\ClazzFactory.java
 C:\Users\SteveBrown\eclipse-workspace\2021\DynamicTest\src\main\java\root\test_elements\ElementTest.java
+C:\Users\SteveBrown\eclipse-workspace\2021\DynamicTest\src\main\java\root\finders\ClassInstantiator.java
 C:\Users\SteveBrown\eclipse-workspace\2021\DynamicTest\src\main\java\root\test_elements\DataInserterItem.java
 C:\Users\SteveBrown\eclipse-workspace\2021\DynamicTest\src\main\java\root\mappers\functions\FunctionTest.java
 C:\Users\SteveBrown\eclipse-workspace\2021\DynamicTest\src\main\java\root\test_adders\TestAdderLabel.java
@@ -28,6 +29,7 @@ C:\Users\SteveBrown\eclipse-workspace\2021\DynamicTest\src\main\java\root\test_r
 C:\Users\SteveBrown\eclipse-workspace\2021\DynamicTest\src\main\java\root\mappers\TestNode.java
 C:\Users\SteveBrown\eclipse-workspace\2021\DynamicTest\src\main\java\root\mappers\functions\ContainerFunctionTest.java
 C:\Users\SteveBrown\eclipse-workspace\2021\DynamicTest\src\main\java\root\finders\MethodGetter.java
+C:\Users\SteveBrown\eclipse-workspace\2021\DynamicTest\src\main\java\root\finders\PomClassFinder.java
 C:\Users\SteveBrown\eclipse-workspace\2021\DynamicTest\src\main\java\root\test_elements\ElementTestFactory.java
 C:\Users\SteveBrown\eclipse-workspace\2021\DynamicTest\src\main\java\root\elements\SiteMapElementLoader.java
 C:\Users\SteveBrown\eclipse-workspace\2021\DynamicTest\src\main\java\root\mappers\DynamicTestModule.java
@@ -45,6 +47,7 @@ C:\Users\SteveBrown\eclipse-workspace\2021\DynamicTest\src\main\java\root\test_e
 C:\Users\SteveBrown\eclipse-workspace\2021\DynamicTest\src\main\java\root\common\XmlDynamicTestContent.java
 C:\Users\SteveBrown\eclipse-workspace\2021\DynamicTest\src\main\java\root\test_adders\TestAdderButton.java
 C:\Users\SteveBrown\eclipse-workspace\2021\DynamicTest\src\main\java\root\test_adders\TestAdderWithData.java
+C:\Users\SteveBrown\eclipse-workspace\2021\DynamicTest\src\main\java\root\finders\PomInstantiator.java
 C:\Users\SteveBrown\eclipse-workspace\2021\DynamicTest\src\main\java\root\test_elements\CreateFaFaCheck.java
 C:\Users\SteveBrown\eclipse-workspace\2021\DynamicTest\src\main\java\root\test_results\DynamicTestIgnored.java
 C:\Users\SteveBrown\eclipse-workspace\2021\DynamicTest\src\main\java\root\mappers\DynamicTestApp.java
