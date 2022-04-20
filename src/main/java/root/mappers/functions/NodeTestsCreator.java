@@ -59,7 +59,8 @@ public class NodeTestsCreator {
 
 	public NodeTestsCreator addTestsForEachTestNode(ElementTestFactory tf) {
 //		obj = ClassFinder.getInstantiatedObject(item);
-		obj = ClassFinder.getInstantiatedObject(item, (CoreData)hp);
+//		obj = ClassFinder.getInstantiatedObject(item, (CoreData)hp);
+		obj = new ClassFinder("/DakarHR-Library/src/main/java/library/object_models").getInstantiatedObject(item, (CoreData)hp);
 		
 		addElementFunctionTests();
 		

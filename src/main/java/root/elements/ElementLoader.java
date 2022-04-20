@@ -46,7 +46,8 @@ public class ElementLoader {
 				SiteMapElementLoader.getAndLoadSiteMapElement(nodeClass, homePage, clazz));		
 	}
 	private static Class<?> getClazz(){		
-		return ClassFinder.getClazz(nodeClass);
+//		return ClassFinder.getClazz(nodeClass);
+		return new ClassFinder("").getClazz(nodeClass);
 	}
 	private static ControlTest getContainerAsControlTest() {
 		ControlTest ct = null;

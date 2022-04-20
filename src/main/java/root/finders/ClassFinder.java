@@ -3,8 +3,12 @@
  */
 package root.finders;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
+import java.net.URLClassLoader;
 
 import org.apache.logging.log4j.LogManager;
 
@@ -21,10 +25,14 @@ import site_mapper.elements.ElementClass;
  * 	Remove method finders into separate class.
  * @since 1.0
  */
-public class ClassFinder {
-	private static String ROOT = "object_models";	
+public class ClassFinder {	
+	private final String inProject;
+		
+	public ClassFinder(final String inProject) {
+		this.inProject = inProject;
+	}
 
-	public static Object getInstantiatedObject(ElementClass nodeClass, CoreData coreData){		
+	public Object getInstantiatedObject(ElementClass nodeClass, CoreData coreData){		
 		final Class<?> clazz = getClazz(nodeClass);
 		Object obj = null;
 		
@@ -32,58 +40,68 @@ public class ClassFinder {
 		try {
 			cnstr = clazz.getConstructor(CoreData.class);
 			obj = cnstr.newInstance(coreData);
-		} catch (
-				NoSuchMethodException | SecurityException | InstantiationException | 
-				IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-System.out.println("->" + e.getMessage()); // TODO - remove or log 	
-			LogManager.getLogger().error("Could not instantiate class for [" + nodeClass + "]");
+		} catch (NoSuchMethodException | SecurityException | InstantiationException | 
+						 IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			logError(e, nodeClass);
 		}		
 		return 	obj;
 	}
 	
-	public static Object getInstantiatedObject(ElementClass nodeClass){		
+	public Object getInstantiatedObject(ElementClass nodeClass){		
 		final Class<?> clazz = getClazz(nodeClass);
 		Object obj = null;
 		
 		Constructor<?> cnstr;
 		try {
-//			cnstr = clazz.getConstructor();
 			cnstr = clazz.getConstructor(CoreData.class);
 			obj = cnstr.newInstance();
-		} catch (
-				NoSuchMethodException | SecurityException | InstantiationException | 
-				IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-
-			LogManager.getLogger().error("Could not instantiate class for [" + nodeClass + "]");
+		} catch (NoSuchMethodException | SecurityException | InstantiationException | 
+						 IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			logError(e, nodeClass);
 		}		
 		return 	obj;
 	}
 	
-	public static Class<?> getClazz(ElementClass nodeClass){		
-		try {
-			String className = getPathToClass(nodeClass);
-			//object_models.modules.payroll.top_right_nav.employees.EmployeeCreationWizard
-			return Class.forName(className);
-		} catch (ClassNotFoundException e) {
-			LogManager.getLogger().error("Could not get class for [" + nodeClass + "]");
+	public Class<?> getClazz(ElementClass nodeClass){			
+			File f = new File(inProject);
+			URLClassLoader cl = null;			
+			
+			try {				
+				URL[] cp = {f.toURI().toURL()};
+				cl = new URLClassLoader(cp);
+				Class<?> c = cl.loadClass(getFullPath(nodeClass));
+				cl.close();
+				return c;				
+			} catch (IOException | ClassNotFoundException e) {
+				logError(e, nodeClass);
+				try {
+					cl.close();
+				} catch (IOException e1) {
+					logError(e, nodeClass);
+				}
+				logError(e, nodeClass);
+			} 
+			
+			return null;
 		}
-		return null;
-	}
 	
-	private static String getPathToClass(ElementClass nodeClass) {
-		return getPathInLowerCase(nodeClass) + "." + nodeClass.getClassName();
-	}
-	private static String getPathInLowerCase(ElementClass nodeClass) {
-		String path = 
-				ROOT + ".modules." +
-				nodeClass.getModuleName() + "." + 
-				nodeClass.getParentPackage() + 
-				getPackage(nodeClass);
-//object_models.modules.payroll.top_right_nav.Employees
-		return path.toLowerCase();
-	}
-	private static String getPackage(ElementClass nodeClass) {
-		var pckge = nodeClass.getPackage();
-		return (pckge != null) ? "." + pckge : "";
-	}
+		private String getFullPath(ElementClass nodeClass){
+			return getPackage(nodeClass) + "." + nodeClass.getClassName();
+		}
+		
+		private String getPackage(ElementClass nodeClass){
+			String pack = 
+					"library.object_models.modules" + 
+					"." + nodeClass.getModuleName() +
+					"." + nodeClass.getParentPackage() +
+					"." + nodeClass.getPackage();
+			return pack;
+		}
+		
+		private void logError(Exception e, ElementClass nodeClass) {
+			 LogManager
+			 	.getLogger(ClassFinder.class)
+			 	.error("Could not instantiate class for [" + nodeClass + "] ERROR -> " + e.getMessage());
+		}
+		
 }
