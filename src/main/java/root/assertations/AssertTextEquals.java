@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import library.common.controls.data.ControlTestData;
 import library.common.controls.data.InsertItem;
 import library.common.controls.interfaces.Control;
@@ -68,11 +69,11 @@ public class AssertTextEquals implements ReportData {
 	}	
 	@Override
 	public String getExpected() {		 
-		return testElementData.getTextExpected();
+		return (testElementData != null) ? testElementData.getTextExpected() : null;		
 	}
 	@Override
-	public String getActual() {
-		return testElementData.getTextActual();
+	public String getActual() {		
+		return (testElementData != null) ? testElementData.getTextActual() : null;
 	}
 	
 	public void assertTextEquals(TestElementDetails testElementDetails, TestElementData testElementData, Optional<Control> cntrl) {
@@ -95,7 +96,8 @@ public class AssertTextEquals implements ReportData {
 	}
 
 	private void runAssert() {
-		if(getActual().equals(getExpected())) {
+		String actual = getActual(); 
+		if(actual != null && actual.equals(getExpected())) {
 			if(isIncludedInReport("Passed")) {
 				strat.reportPass(new DynamicTestPass(this));	
 			}			
