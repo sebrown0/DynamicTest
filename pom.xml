@@ -36,6 +36,11 @@
       <artifactId>DakarHR-Library</artifactId>
       <version>0.0.1-SNAPSHOT</version>
     </dependency>   
+    <dependency>
+      <groupId>com.dakar.automated_testing</groupId>
+      <artifactId>DTestCommon</artifactId>
+      <version>1.2.1</version>
+    </dependency> 
     <!-- DAKAR - END -->
 
     <dependency>

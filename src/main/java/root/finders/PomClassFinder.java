@@ -8,7 +8,9 @@ import java.net.URLClassLoader;
 import org.apache.logging.log4j.LogManager;
 
 import site_mapper.elements.ElementClass;
-import utils.text_utils.StringUtil;
+import static utils.text_utils.StringUtils.*;
+import utils.clazz.PackageNameResolver;
+import utils.text_utils.StringUtils;
 
 /**
  * @author SteveBrown
@@ -57,13 +59,21 @@ public class PomClassFinder implements ClassFinder {
 		
 		private String getPackage(){
 			String pack = 
-					"library.object_models.modules" + 
-					"." + StringUtil.firstCharToLower(nodeClass.getModuleName()) +
-					"." + StringUtil.firstCharToLower(nodeClass.getParentPackage()) +
-					"." + StringUtil.firstCharToLower(nodeClass.getPackage());
+					getSourcePackage() + 
+					"." + firstCharToLower(nodeClass.getModuleName()) +
+					"." + firstCharToLower(nodeClass.getParentPackage()) +
+					"." + new PackageNameResolver(nodeClass.getPackage()).getPackageInCorrectFormat();
 			return pack;
 		}
 		
+		private String getSourcePackage() {
+			String pckge = 
+				StringUtils.replaceFwdSlashes(
+						nodeClass.getSiteMapInfo().getParentPackage(), ".");					
+			
+			return pckge;
+		}
+				
 		private void logError(Exception e) {
 			 LogManager
 			 	.getLogger(PomClassFinder.class)
